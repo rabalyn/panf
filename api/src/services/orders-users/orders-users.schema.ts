@@ -11,7 +11,8 @@ export const ordersUsersSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
 
-    text: Type.String(),
+    orderId: Type.String({ format: 'uuid' }),
+    userId: Type.String({ format: 'uuid' }),
 
     createdAt: Type.Integer({ minimum: 1 }),
     updatedAt: Type.Integer({ minimum: 1 })
@@ -25,7 +26,7 @@ export const ordersUsersResolver = resolve<OrdersUsers, HookContext>({})
 export const ordersUsersExternalResolver = resolve<OrdersUsers, HookContext>({})
 
 // Schema for creating new entries
-export const ordersUsersDataSchema = Type.Pick(ordersUsersSchema, ['text'], {
+export const ordersUsersDataSchema = Type.Pick(ordersUsersSchema, ['orderId', 'userId'], {
   $id: 'OrdersUsersData'
 })
 export type OrdersUsersData = Static<typeof ordersUsersDataSchema>
@@ -49,7 +50,7 @@ export const ordersUsersPatchResolver = resolve<OrdersUsers, HookContext>({
 })
 
 // Schema for allowed query properties
-export const ordersUsersQueryProperties = Type.Pick(ordersUsersSchema, ['id', 'text'])
+export const ordersUsersQueryProperties = Type.Pick(ordersUsersSchema, ['id', 'orderId', 'userId'])
 export const ordersUsersQuerySchema = Type.Intersect(
   [
     querySyntax(ordersUsersQueryProperties),

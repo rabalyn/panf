@@ -12,7 +12,7 @@ export const ingredientsSchema = Type.Object(
     id: Type.String({ format: 'uuid' }),
 
     nameI18nKey: Type.String(),
-    priceInCents: Type.Integer({ minimum: 1 }),
+    priceInCents: Type.Integer({ minimum: 0 }),
 
     createdAt: Type.Integer({ minimum: 1 }),
     updatedAt: Type.Integer({ minimum: 1 })

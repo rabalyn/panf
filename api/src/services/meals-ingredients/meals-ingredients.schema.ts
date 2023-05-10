@@ -11,7 +11,8 @@ export const mealsIngredientsSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
 
-    text: Type.String(),
+    mealId: Type.String({ format: 'uuid' }),
+    ingredientId: Type.String({ format: 'uuid' }),
 
     createdAt: Type.Integer({ minimum: 1 }),
     updatedAt: Type.Integer({ minimum: 1 })
@@ -25,7 +26,7 @@ export const mealsIngredientsResolver = resolve<MealsIngredients, HookContext>({
 export const mealsIngredientsExternalResolver = resolve<MealsIngredients, HookContext>({})
 
 // Schema for creating new entries
-export const mealsIngredientsDataSchema = Type.Pick(mealsIngredientsSchema, ['text'], {
+export const mealsIngredientsDataSchema = Type.Pick(mealsIngredientsSchema, ['mealId', 'ingredientId'], {
   $id: 'MealsIngredientsData'
 })
 export type MealsIngredientsData = Static<typeof mealsIngredientsDataSchema>
@@ -49,7 +50,7 @@ export const mealsIngredientsPatchResolver = resolve<MealsIngredients, HookConte
 })
 
 // Schema for allowed query properties
-export const mealsIngredientsQueryProperties = Type.Pick(mealsIngredientsSchema, ['id', 'text'])
+export const mealsIngredientsQueryProperties = Type.Pick(mealsIngredientsSchema, ['id', 'mealId', 'ingredientId'])
 export const mealsIngredientsQuerySchema = Type.Intersect(
   [
     querySyntax(mealsIngredientsQueryProperties),

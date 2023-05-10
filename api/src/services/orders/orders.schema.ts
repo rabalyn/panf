@@ -11,7 +11,12 @@ export const ordersSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
 
-    text: Type.String(),
+    isActive: Type.Boolean(),
+    isPublic: Type.Boolean(),
+    orderdate: Type.Integer({ minimum: 1 }),
+    pickuptime: Type.Integer({ minimum: 1 }),
+    collector: Type.String(),
+    caller: Type.String(),
 
     createdAt: Type.Integer({ minimum: 1 }),
     updatedAt: Type.Integer({ minimum: 1 })
@@ -25,12 +30,15 @@ export const ordersResolver = resolve<Orders, HookContext>({})
 export const ordersExternalResolver = resolve<Orders, HookContext>({})
 
 // Schema for creating new entries
-export const ordersDataSchema = Type.Pick(ordersSchema, ['text'], {
+export const ordersDataSchema = Type.Pick(ordersSchema, ['isActive', 'isPublic'], {
   $id: 'OrdersData'
 })
 export type OrdersData = Static<typeof ordersDataSchema>
 export const ordersDataValidator = getValidator(ordersDataSchema, dataValidator)
 export const ordersDataResolver = resolve<Orders, HookContext>({
+  orderdate: async () => {
+    return new Date().valueOf()
+  },
   createdAt:async () => {
     return new Date().valueOf()
   }
@@ -49,7 +57,7 @@ export const ordersPatchResolver = resolve<Orders, HookContext>({
 })
 
 // Schema for allowed query properties
-export const ordersQueryProperties = Type.Pick(ordersSchema, ['id', 'text'])
+export const ordersQueryProperties = Type.Pick(ordersSchema, ['id', 'isActive'])
 export const ordersQuerySchema = Type.Intersect(
   [
     querySyntax(ordersQueryProperties),

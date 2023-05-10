@@ -11,7 +11,11 @@ export const menusSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
 
-    text: Type.String(),
+    nameI18nKey: Type.String(),
+    phone: Type.String(),
+    email: Type.String({ format: 'email' }),
+    street: Type.String(),
+    zipcode: Type.String(),
 
     createdAt: Type.Integer({ minimum: 1 }),
     updatedAt: Type.Integer({ minimum: 1 })
@@ -25,7 +29,7 @@ export const menusResolver = resolve<Menus, HookContext>({})
 export const menusExternalResolver = resolve<Menus, HookContext>({})
 
 // Schema for creating new entries
-export const menusDataSchema = Type.Pick(menusSchema, ['text'], {
+export const menusDataSchema = Type.Pick(menusSchema, ['nameI18nKey'], {
   $id: 'MenusData'
 })
 export type MenusData = Static<typeof menusDataSchema>
@@ -49,7 +53,7 @@ export const menusPatchResolver = resolve<Menus, HookContext>({
 })
 
 // Schema for allowed query properties
-export const menusQueryProperties = Type.Pick(menusSchema, ['id', 'text'])
+export const menusQueryProperties = Type.Pick(menusSchema, ['id', 'nameI18nKey'])
 export const menusQuerySchema = Type.Intersect(
   [
     querySyntax(menusQueryProperties),

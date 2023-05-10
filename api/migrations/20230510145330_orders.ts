@@ -7,6 +7,11 @@ export async function up(knex: Knex): Promise<void> {
 
     table.boolean('isActive')
     table.boolean('isPublic')
+    table.integer('orderdate')
+    table.integer('pickuptime')
+    table.string('collector')
+    table.string('caller')
+
     table.integer('createdAt')
     table.integer('updatedAt')
   })

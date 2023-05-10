@@ -11,8 +11,8 @@ export const configsSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
 
-    key: Type.String(),
-    val: Type.String(),
+    key: Type.String({ minLength: 1}),
+    val: Type.String({ minLength: 1}),
 
     createdAt: Type.Integer({ minimum: 1 }),
     updatedAt: Type.Integer({ minimum: 1 })
