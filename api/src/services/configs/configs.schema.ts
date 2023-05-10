@@ -9,8 +9,13 @@ import { dataValidator, queryValidator } from '../../validators'
 // Main data model schema
 export const configsSchema = Type.Object(
   {
-    id: Type.Number(),
-    text: Type.String()
+    id: Type.String({ format: 'uuid' }),
+
+    key: Type.String(),
+    val: Type.String(),
+
+    createdAt: Type.Integer({ minimum: 1 }),
+    updatedAt: Type.Integer({ minimum: 1 })
   },
   { $id: 'Configs', additionalProperties: false }
 )
@@ -21,12 +26,16 @@ export const configsResolver = resolve<Configs, HookContext>({})
 export const configsExternalResolver = resolve<Configs, HookContext>({})
 
 // Schema for creating new entries
-export const configsDataSchema = Type.Pick(configsSchema, ['text'], {
+export const configsDataSchema = Type.Pick(configsSchema, ['key', 'val'], {
   $id: 'ConfigsData'
 })
 export type ConfigsData = Static<typeof configsDataSchema>
 export const configsDataValidator = getValidator(configsDataSchema, dataValidator)
-export const configsDataResolver = resolve<Configs, HookContext>({})
+export const configsDataResolver = resolve<Configs, HookContext>({
+  createdAt:async () => {
+    return new Date().valueOf()
+  }
+})
 
 // Schema for updating existing entries
 export const configsPatchSchema = Type.Partial(configsSchema, {
@@ -34,10 +43,14 @@ export const configsPatchSchema = Type.Partial(configsSchema, {
 })
 export type ConfigsPatch = Static<typeof configsPatchSchema>
 export const configsPatchValidator = getValidator(configsPatchSchema, dataValidator)
-export const configsPatchResolver = resolve<Configs, HookContext>({})
+export const configsPatchResolver = resolve<Configs, HookContext>({
+  updatedAt:async () => {
+    return new Date().valueOf()
+  }
+})
 
 // Schema for allowed query properties
-export const configsQueryProperties = Type.Pick(configsSchema, ['id', 'text'])
+export const configsQueryProperties = Type.Pick(configsSchema, ['id', 'key'])
 export const configsQuerySchema = Type.Intersect(
   [
     querySyntax(configsQueryProperties),

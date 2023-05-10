@@ -9,8 +9,12 @@ import { dataValidator, queryValidator } from '../../validators'
 // Main data model schema
 export const ordersSchema = Type.Object(
   {
-    id: Type.Number(),
-    text: Type.String()
+    id: Type.String({ format: 'uuid' }),
+
+    text: Type.String(),
+
+    createdAt: Type.Integer({ minimum: 1 }),
+    updatedAt: Type.Integer({ minimum: 1 })
   },
   { $id: 'Orders', additionalProperties: false }
 )
@@ -26,7 +30,11 @@ export const ordersDataSchema = Type.Pick(ordersSchema, ['text'], {
 })
 export type OrdersData = Static<typeof ordersDataSchema>
 export const ordersDataValidator = getValidator(ordersDataSchema, dataValidator)
-export const ordersDataResolver = resolve<Orders, HookContext>({})
+export const ordersDataResolver = resolve<Orders, HookContext>({
+  createdAt:async () => {
+    return new Date().valueOf()
+  }
+})
 
 // Schema for updating existing entries
 export const ordersPatchSchema = Type.Partial(ordersSchema, {
@@ -34,7 +42,11 @@ export const ordersPatchSchema = Type.Partial(ordersSchema, {
 })
 export type OrdersPatch = Static<typeof ordersPatchSchema>
 export const ordersPatchValidator = getValidator(ordersPatchSchema, dataValidator)
-export const ordersPatchResolver = resolve<Orders, HookContext>({})
+export const ordersPatchResolver = resolve<Orders, HookContext>({
+  updatedAt:async () => {
+    return new Date().valueOf()
+  }
+})
 
 // Schema for allowed query properties
 export const ordersQueryProperties = Type.Pick(ordersSchema, ['id', 'text'])

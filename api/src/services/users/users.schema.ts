@@ -10,10 +10,14 @@ import { dataValidator, queryValidator } from '../../validators'
 // Main data model schema
 export const userSchema = Type.Object(
   {
-    id: Type.Number(),
+    id: Type.String({ format: 'uuid' }),
+
     name: Type.String(),
     displayName: Type.String(),
-    password: Type.Optional(Type.String())
+    password: Type.Optional(Type.String()),
+
+    createdAt: Type.Integer({ minimum: 1 }),
+    updatedAt: Type.Integer({ minimum: 1 })
   },
   { $id: 'User', additionalProperties: false }
 )
@@ -33,7 +37,10 @@ export const userDataSchema = Type.Pick(userSchema, ['name', 'password'], {
 export type UserData = Static<typeof userDataSchema>
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve<User, HookContext>({
-  password: passwordHash({ strategy: 'local' })
+  password: passwordHash({ strategy: 'local' }),
+  createdAt:async () => {
+    return new Date().valueOf()
+  }
 })
 
 // Schema for updating existing entries
@@ -43,7 +50,10 @@ export const userPatchSchema = Type.Partial(userSchema, {
 export type UserPatch = Static<typeof userPatchSchema>
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 export const userPatchResolver = resolve<User, HookContext>({
-  password: passwordHash({ strategy: 'local' })
+  password: passwordHash({ strategy: 'local' }),
+  updatedAt:async () => {
+    return new Date().valueOf()
+  }
 })
 
 // Schema for allowed query properties

@@ -4,6 +4,14 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
+import { mealsMenusClient } from './services/meals-menus/meals-menus.shared'
+export type {
+  MealsMenus,
+  MealsMenusData,
+  MealsMenusQuery,
+  MealsMenusPatch
+} from './services/meals-menus/meals-menus.shared'
+
 import { configsClient } from './services/configs/configs.shared'
 export type { Configs, ConfigsData, ConfigsQuery, ConfigsPatch } from './services/configs/configs.shared'
 
@@ -37,17 +45,6 @@ export type {
 import { mealsClient } from './services/meals/meals.shared'
 export type { Meals, MealsData, MealsQuery, MealsPatch } from './services/meals/meals.shared'
 
-import { ordersMetaClient } from './services/orders-meta/orders-meta.shared'
-export type {
-  OrdersMeta,
-  OrdersMetaData,
-  OrdersMetaQuery,
-  OrdersMetaPatch
-} from './services/orders-meta/orders-meta.shared'
-
-import { metaClient } from './services/meta/meta.shared'
-export type { Meta, MetaData, MetaQuery, MetaPatch } from './services/meta/meta.shared'
-
 import { ordersUsersClient } from './services/orders-users/orders-users.shared'
 export type {
   OrdersUsers,
@@ -58,9 +55,6 @@ export type {
 
 import { ordersClient } from './services/orders/orders.shared'
 export type { Orders, OrdersData, OrdersQuery, OrdersPatch } from './services/orders/orders.shared'
-
-import { ordersClient } from './services/order/order.shared'
-export type { Orders, OrdersData, OrdersQuery, OrdersPatch } from './services/order/order.shared'
 
 import { userClient } from './services/users/users.shared'
 export type { User, UserData, UserQuery, UserPatch } from './services/users/users.shared'
@@ -93,15 +87,13 @@ export const createClient = <Configuration = any>(
 
   client.configure(userClient)
   client.configure(ordersClient)
-  client.configure(ordersClient)
   client.configure(ordersUsersClient)
-  client.configure(metaClient)
-  client.configure(ordersMetaClient)
   client.configure(mealsClient)
   client.configure(ordersMealsClient)
   client.configure(ingredientsClient)
   client.configure(mealsIngredientsClient)
   client.configure(menusClient)
   client.configure(configsClient)
+  client.configure(mealsMenusClient)
   return client
 }

@@ -9,8 +9,13 @@ import { dataValidator, queryValidator } from '../../validators'
 // Main data model schema
 export const mealsSchema = Type.Object(
   {
-    id: Type.Number(),
-    text: Type.String()
+    id: Type.String({ format: 'uuid' }),
+
+    nameI18nKey: Type.String(),
+    priceInCents: Type.Integer({ minimum: 1 }),
+
+    createdAt: Type.Integer({ minimum: 1 }),
+    updatedAt: Type.Integer({ minimum: 1 })
   },
   { $id: 'Meals', additionalProperties: false }
 )
@@ -21,12 +26,16 @@ export const mealsResolver = resolve<Meals, HookContext>({})
 export const mealsExternalResolver = resolve<Meals, HookContext>({})
 
 // Schema for creating new entries
-export const mealsDataSchema = Type.Pick(mealsSchema, ['text'], {
+export const mealsDataSchema = Type.Pick(mealsSchema, ['nameI18nKey'], {
   $id: 'MealsData'
 })
 export type MealsData = Static<typeof mealsDataSchema>
 export const mealsDataValidator = getValidator(mealsDataSchema, dataValidator)
-export const mealsDataResolver = resolve<Meals, HookContext>({})
+export const mealsDataResolver = resolve<Meals, HookContext>({
+  createdAt:async () => {
+    return new Date().valueOf()
+  }
+})
 
 // Schema for updating existing entries
 export const mealsPatchSchema = Type.Partial(mealsSchema, {
@@ -34,10 +43,14 @@ export const mealsPatchSchema = Type.Partial(mealsSchema, {
 })
 export type MealsPatch = Static<typeof mealsPatchSchema>
 export const mealsPatchValidator = getValidator(mealsPatchSchema, dataValidator)
-export const mealsPatchResolver = resolve<Meals, HookContext>({})
+export const mealsPatchResolver = resolve<Meals, HookContext>({
+  updatedAt:async () => {
+    return new Date().valueOf()
+  }
+})
 
 // Schema for allowed query properties
-export const mealsQueryProperties = Type.Pick(mealsSchema, ['id', 'text'])
+export const mealsQueryProperties = Type.Pick(mealsSchema, ['id', 'nameI18nKey'])
 export const mealsQuerySchema = Type.Intersect(
   [
     querySyntax(mealsQueryProperties),

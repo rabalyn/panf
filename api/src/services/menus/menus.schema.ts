@@ -9,8 +9,12 @@ import { dataValidator, queryValidator } from '../../validators'
 // Main data model schema
 export const menusSchema = Type.Object(
   {
-    id: Type.Number(),
-    text: Type.String()
+    id: Type.String({ format: 'uuid' }),
+
+    text: Type.String(),
+
+    createdAt: Type.Integer({ minimum: 1 }),
+    updatedAt: Type.Integer({ minimum: 1 })
   },
   { $id: 'Menus', additionalProperties: false }
 )
@@ -26,7 +30,11 @@ export const menusDataSchema = Type.Pick(menusSchema, ['text'], {
 })
 export type MenusData = Static<typeof menusDataSchema>
 export const menusDataValidator = getValidator(menusDataSchema, dataValidator)
-export const menusDataResolver = resolve<Menus, HookContext>({})
+export const menusDataResolver = resolve<Menus, HookContext>({
+  createdAt:async () => {
+    return new Date().valueOf()
+  }
+})
 
 // Schema for updating existing entries
 export const menusPatchSchema = Type.Partial(menusSchema, {
@@ -34,7 +42,11 @@ export const menusPatchSchema = Type.Partial(menusSchema, {
 })
 export type MenusPatch = Static<typeof menusPatchSchema>
 export const menusPatchValidator = getValidator(menusPatchSchema, dataValidator)
-export const menusPatchResolver = resolve<Menus, HookContext>({})
+export const menusPatchResolver = resolve<Menus, HookContext>({
+  updatedAt:async () => {
+    return new Date().valueOf()
+  }
+})
 
 // Schema for allowed query properties
 export const menusQueryProperties = Type.Pick(menusSchema, ['id', 'text'])

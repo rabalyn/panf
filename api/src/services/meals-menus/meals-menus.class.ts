@@ -4,24 +4,24 @@ import { KnexService } from '@feathersjs/knex'
 import type { KnexAdapterParams, KnexAdapterOptions } from '@feathersjs/knex'
 
 import type { Application } from '../../declarations'
-import type { Meta, MetaData, MetaPatch, MetaQuery } from './meta.schema'
+import type { MealsMenus, MealsMenusData, MealsMenusPatch, MealsMenusQuery } from './meals-menus.schema'
 
-export type { Meta, MetaData, MetaPatch, MetaQuery }
+export type { MealsMenus, MealsMenusData, MealsMenusPatch, MealsMenusQuery }
 
-export interface MetaParams extends KnexAdapterParams<MetaQuery> {}
+export interface MealsMenusParams extends KnexAdapterParams<MealsMenusQuery> {}
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
-export class MetaService<ServiceParams extends Params = MetaParams> extends KnexService<
-  Meta,
-  MetaData,
-  MetaParams,
-  MetaPatch
+export class MealsMenusService<ServiceParams extends Params = MealsMenusParams> extends KnexService<
+  MealsMenus,
+  MealsMenusData,
+  MealsMenusParams,
+  MealsMenusPatch
 > {}
 
 export const getOptions = (app: Application): KnexAdapterOptions => {
   return {
     paginate: app.get('paginate'),
     Model: app.get('sqliteClient'),
-    name: 'meta'
+    name: 'meals-menus'
   }
 }
