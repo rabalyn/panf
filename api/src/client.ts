@@ -4,6 +4,22 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
+import { userPermissionsClient } from './services/user-permissions/user-permissions.shared'
+export type {
+  UserPermissions,
+  UserPermissionsData,
+  UserPermissionsQuery,
+  UserPermissionsPatch
+} from './services/user-permissions/user-permissions.shared'
+
+import { permissionsClient } from './services/permissions/permissions.shared'
+export type {
+  Permissions,
+  PermissionsData,
+  PermissionsQuery,
+  PermissionsPatch
+} from './services/permissions/permissions.shared'
+
 import { mealsMenusClient } from './services/meals-menus/meals-menus.shared'
 export type {
   MealsMenus,
@@ -95,5 +111,7 @@ export const createClient = <Configuration = any>(
   client.configure(menusClient)
   client.configure(configsClient)
   client.configure(mealsMenusClient)
+  client.configure(permissionsClient)
+  client.configure(userPermissionsClient)
   return client
 }

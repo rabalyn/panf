@@ -1,3 +1,5 @@
+import { userPermissions } from './user-permissions/user-permissions'
+import { permissions } from './permissions/permissions'
 import { mealsMenus } from './meals-menus/meals-menus'
 import { configs } from './configs/configs'
 import { menus } from './menus/menus'
@@ -12,6 +14,8 @@ import { user } from './users/users'
 import type { Application } from '../declarations'
 
 export const services = (app: Application) => {
+  app.configure(userPermissions)
+  app.configure(permissions)
   app.configure(mealsMenus)
   app.configure(configs)
   app.configure(menus)

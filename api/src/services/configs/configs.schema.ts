@@ -6,6 +6,8 @@ import type { Static } from '@feathersjs/typebox'
 import type { HookContext } from '../../declarations'
 import { dataValidator, queryValidator } from '../../validators'
 
+import { v4 } from 'uuid'
+
 // Main data model schema
 export const configsSchema = Type.Object(
   {
@@ -32,6 +34,7 @@ export const configsDataSchema = Type.Pick(configsSchema, ['key', 'val'], {
 export type ConfigsData = Static<typeof configsDataSchema>
 export const configsDataValidator = getValidator(configsDataSchema, dataValidator)
 export const configsDataResolver = resolve<Configs, HookContext>({
+  id: async () => v4(),
   createdAt:async () => {
     return new Date().valueOf()
   }

@@ -7,7 +7,11 @@
   "keywords": [
     "feathers"
   ],
-  "author": {},
+  "author": {
+    "name": "@rabalyn",
+    "email": "n.mundhenke@mailbox.org",
+    "url": "https://github.com/rabalyn"
+  },
   "contributors": [],
   "bugs": {},
   "engines": {
@@ -39,11 +43,13 @@
     "compile": "shx rm -rf lib/ && tsc",
     "start": "node lib/",
     "prettier": "npx prettier \"**/*.ts\" --write",
-    "mocha": "cross-env NODE_ENV=test mocha test/ --require ts-node/register --recursive --extension .ts --exit",
-    "test": "cross-env NODE_ENV=test npm run migrate && npm run mocha",
+    "vitest": "cross-env NODE_ENV=test vitest",
+    "test": "cross-env NODE_ENV=test npm run migrate && npm run vitest",
     "bundle:client": "npm run compile && npm pack --pack-destination ./public",
     "migrate": "knex migrate:latest",
-    "migrate:make": "knex migrate:make"
+    "migrate:make": "knex migrate:make",
+    "seed:make": "knex seed:make",
+    "seed:run": "knex seed:run"
   },
   "dependencies": {
     "@feathersjs/adapter-commons": "^5.0.5",
@@ -60,22 +66,26 @@
     "@feathersjs/socketio": "^5.0.5",
     "@feathersjs/transport-commons": "^5.0.5",
     "@feathersjs/typebox": "^5.0.5",
+    "bcryptjs": "^2.4.3",
     "knex": "^2.4.2",
     "sqlite3": "^5.1.6",
+    "uuid": "^9.0.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {
     "@feathersjs/cli": "^5.0.4",
     "@feathersjs/rest-client": "^5.0.5",
+    "@types/bcryptjs": "^2.4.2",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.16.7",
+    "@types/uuid": "^9.0.1",
     "axios": "^1.4.0",
     "cross-env": "^7.0.3",
-    "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
     "shx": "^0.3.4",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.0"
   }
 }
