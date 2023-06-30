@@ -31,7 +31,7 @@ export const permissionsDataSchema = Type.Pick(permissionsSchema, ['nameI18nKey'
 export type PermissionsData = Static<typeof permissionsDataSchema>
 export const permissionsDataValidator = getValidator(permissionsDataSchema, dataValidator)
 export const permissionsDataResolver = resolve<Permissions, HookContext>({
-  createdAt:async () => {
+  createdAt: async () => {
     return new Date().valueOf()
   }
 })
@@ -43,7 +43,7 @@ export const permissionsPatchSchema = Type.Partial(permissionsSchema, {
 export type PermissionsPatch = Static<typeof permissionsPatchSchema>
 export const permissionsPatchValidator = getValidator(permissionsPatchSchema, dataValidator)
 export const permissionsPatchResolver = resolve<Permissions, HookContext>({
-  updatedAt:async () => {
+  updatedAt: async () => {
     return new Date().valueOf()
   }
 })

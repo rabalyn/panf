@@ -32,7 +32,7 @@ export const ingredientsDataSchema = Type.Pick(ingredientsSchema, ['nameI18nKey'
 export type IngredientsData = Static<typeof ingredientsDataSchema>
 export const ingredientsDataValidator = getValidator(ingredientsDataSchema, dataValidator)
 export const ingredientsDataResolver = resolve<Ingredients, HookContext>({
-  createdAt:async () => {
+  createdAt: async () => {
     return new Date().valueOf()
   }
 })
@@ -44,7 +44,7 @@ export const ingredientsPatchSchema = Type.Partial(ingredientsSchema, {
 export type IngredientsPatch = Static<typeof ingredientsPatchSchema>
 export const ingredientsPatchValidator = getValidator(ingredientsPatchSchema, dataValidator)
 export const ingredientsPatchResolver = resolve<Ingredients, HookContext>({
-  updatedAt:async () => {
+  updatedAt: async () => {
     return new Date().valueOf()
   }
 })

@@ -32,7 +32,7 @@ export const mealsIngredientsDataSchema = Type.Pick(mealsIngredientsSchema, ['me
 export type MealsIngredientsData = Static<typeof mealsIngredientsDataSchema>
 export const mealsIngredientsDataValidator = getValidator(mealsIngredientsDataSchema, dataValidator)
 export const mealsIngredientsDataResolver = resolve<MealsIngredients, HookContext>({
-  createdAt:async () => {
+  createdAt: async () => {
     return new Date().valueOf()
   }
 })
@@ -44,7 +44,7 @@ export const mealsIngredientsPatchSchema = Type.Partial(mealsIngredientsSchema, 
 export type MealsIngredientsPatch = Static<typeof mealsIngredientsPatchSchema>
 export const mealsIngredientsPatchValidator = getValidator(mealsIngredientsPatchSchema, dataValidator)
 export const mealsIngredientsPatchResolver = resolve<MealsIngredients, HookContext>({
-  updatedAt:async () => {
+  updatedAt: async () => {
     return new Date().valueOf()
   }
 })

@@ -35,7 +35,7 @@ export const menusDataSchema = Type.Pick(menusSchema, ['nameI18nKey'], {
 export type MenusData = Static<typeof menusDataSchema>
 export const menusDataValidator = getValidator(menusDataSchema, dataValidator)
 export const menusDataResolver = resolve<Menus, HookContext>({
-  createdAt:async () => {
+  createdAt: async () => {
     return new Date().valueOf()
   }
 })
@@ -47,7 +47,7 @@ export const menusPatchSchema = Type.Partial(menusSchema, {
 export type MenusPatch = Static<typeof menusPatchSchema>
 export const menusPatchValidator = getValidator(menusPatchSchema, dataValidator)
 export const menusPatchResolver = resolve<Menus, HookContext>({
-  updatedAt:async () => {
+  updatedAt: async () => {
     return new Date().valueOf()
   }
 })

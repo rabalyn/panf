@@ -32,7 +32,7 @@ export const mealsDataSchema = Type.Pick(mealsSchema, ['nameI18nKey'], {
 export type MealsData = Static<typeof mealsDataSchema>
 export const mealsDataValidator = getValidator(mealsDataSchema, dataValidator)
 export const mealsDataResolver = resolve<Meals, HookContext>({
-  createdAt:async () => {
+  createdAt: async () => {
     return new Date().valueOf()
   }
 })
@@ -44,7 +44,7 @@ export const mealsPatchSchema = Type.Partial(mealsSchema, {
 export type MealsPatch = Static<typeof mealsPatchSchema>
 export const mealsPatchValidator = getValidator(mealsPatchSchema, dataValidator)
 export const mealsPatchResolver = resolve<Meals, HookContext>({
-  updatedAt:async () => {
+  updatedAt: async () => {
     return new Date().valueOf()
   }
 })

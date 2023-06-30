@@ -10,6 +10,7 @@
 
 const { configure } = require('quasar/wrappers')
 const path = require('path')
+const { feathersPiniaAutoImport } = require('feathers-pinia')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -29,7 +30,8 @@ module.exports = configure(function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
-      'i18n'
+      'i18n',
+      'feathers-pinia'
 
     ],
 
@@ -79,6 +81,25 @@ module.exports = configure(function (/* ctx */) {
       // viteVuePluginOptions: {},
 
       vitePlugins: [
+        ['unplugin-auto-import/vite', {
+          imports: [
+            'vue',
+            'vue-router',
+            'vue-i18n',
+            'vue/macros',
+            '@vueuse/head',
+            '@vueuse/core',
+            feathersPiniaAutoImport
+          ],
+          dts: 'src/auto-imports.d.ts',
+          dirs: ['src/composables', 'src/models', 'src/stores'],
+          vueTemplate: true,
+          eslintrc: {
+            enabled: true, // Default `false`
+            filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
+            globalsPropValue: true // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+          }
+        }],
         ['@intlify/vite-plugin-vue-i18n', {
           // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
           // compositionOnly: false,
@@ -96,7 +117,7 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework

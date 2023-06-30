@@ -35,7 +35,7 @@ export type ConfigsData = Static<typeof configsDataSchema>
 export const configsDataValidator = getValidator(configsDataSchema, dataValidator)
 export const configsDataResolver = resolve<Configs, HookContext>({
   id: async () => v4(),
-  createdAt:async () => {
+  createdAt: async () => {
     return new Date().valueOf()
   }
 })
@@ -47,7 +47,7 @@ export const configsPatchSchema = Type.Partial(configsSchema, {
 export type ConfigsPatch = Static<typeof configsPatchSchema>
 export const configsPatchValidator = getValidator(configsPatchSchema, dataValidator)
 export const configsPatchResolver = resolve<Configs, HookContext>({
-  updatedAt:async () => {
+  updatedAt: async () => {
     return new Date().valueOf()
   }
 })

@@ -39,7 +39,7 @@ export const ordersDataResolver = resolve<Orders, HookContext>({
   orderdate: async () => {
     return new Date().valueOf()
   },
-  createdAt:async () => {
+  createdAt: async () => {
     return new Date().valueOf()
   }
 })
@@ -51,7 +51,7 @@ export const ordersPatchSchema = Type.Partial(ordersSchema, {
 export type OrdersPatch = Static<typeof ordersPatchSchema>
 export const ordersPatchValidator = getValidator(ordersPatchSchema, dataValidator)
 export const ordersPatchResolver = resolve<Orders, HookContext>({
-  updatedAt:async () => {
+  updatedAt: async () => {
     return new Date().valueOf()
   }
 })

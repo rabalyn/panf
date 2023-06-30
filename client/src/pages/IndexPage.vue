@@ -1,5 +1,8 @@
 <template>
   <q-page class="row items-center justify-evenly">
+    <pre>
+      {{ data }}
+    </pre>
     <example-component
       title="Example component"
       active
@@ -13,6 +16,13 @@
 import { Todo, Meta } from 'components/models'
 import ExampleComponent from 'components/ExampleComponent.vue'
 import { ref } from 'vue'
+
+const { api } = useFeathers()
+
+const params = computed(() => {
+  return { query: { $limit: 10, $skip: 0 } }
+})
+const { data } = api.service('meals').useFind(params, { immediate: true, paginateOn: 'hybrid' })
 
 const todos = ref<Todo[]>([
   {

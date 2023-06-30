@@ -32,7 +32,7 @@ export const ordersUsersDataSchema = Type.Pick(ordersUsersSchema, ['orderId', 'u
 export type OrdersUsersData = Static<typeof ordersUsersDataSchema>
 export const ordersUsersDataValidator = getValidator(ordersUsersDataSchema, dataValidator)
 export const ordersUsersDataResolver = resolve<OrdersUsers, HookContext>({
-  createdAt:async () => {
+  createdAt: async () => {
     return new Date().valueOf()
   }
 })
@@ -44,7 +44,7 @@ export const ordersUsersPatchSchema = Type.Partial(ordersUsersSchema, {
 export type OrdersUsersPatch = Static<typeof ordersUsersPatchSchema>
 export const ordersUsersPatchValidator = getValidator(ordersUsersPatchSchema, dataValidator)
 export const ordersUsersPatchResolver = resolve<OrdersUsers, HookContext>({
-  updatedAt:async () => {
+  updatedAt: async () => {
     return new Date().valueOf()
   }
 })
