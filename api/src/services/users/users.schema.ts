@@ -67,9 +67,7 @@ export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve<User, HookContext>({
   id: async () => v4(),
   password: passwordHash({ strategy: 'local' }),
-  createdAt: async () => {
-    return new Date().valueOf()
-  }
+  createdAt: async () => new Date().valueOf()
 })
 
 // Schema for updating existing entries

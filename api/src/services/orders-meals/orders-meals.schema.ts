@@ -6,6 +6,8 @@ import type { Static } from '@feathersjs/typebox'
 import type { HookContext } from '../../declarations'
 import { dataValidator, queryValidator } from '../../validators'
 
+import { v4 } from 'uuid'
+
 // Main data model schema
 export const ordersMealsSchema = Type.Object(
   {
@@ -13,6 +15,9 @@ export const ordersMealsSchema = Type.Object(
 
     orderId: Type.String({ format: 'uuid' }),
     mealId: Type.String({ format: 'uuid' }),
+    mealExtraId: Type.String({ format: 'uuid' }),
+    mealNextraId: Type.String({ format: 'uuid' }),
+    name: Type.String(),
 
     createdAt: Type.Integer({ minimum: 1 }),
     updatedAt: Type.Integer({ minimum: 1 })
@@ -26,15 +31,14 @@ export const ordersMealsResolver = resolve<OrdersMeals, HookContext>({})
 export const ordersMealsExternalResolver = resolve<OrdersMeals, HookContext>({})
 
 // Schema for creating new entries
-export const ordersMealsDataSchema = Type.Pick(ordersMealsSchema, ['orderId', 'mealId'], {
+export const ordersMealsDataSchema = Type.Pick(ordersMealsSchema, ['orderId', 'mealId', 'name'], {
   $id: 'OrdersMealsData'
 })
 export type OrdersMealsData = Static<typeof ordersMealsDataSchema>
 export const ordersMealsDataValidator = getValidator(ordersMealsDataSchema, dataValidator)
 export const ordersMealsDataResolver = resolve<OrdersMeals, HookContext>({
-  createdAt: async () => {
-    return new Date().valueOf()
-  }
+  id: async () => v4(),
+  createdAt: async () => new Date().valueOf()
 })
 
 // Schema for updating existing entries
@@ -44,9 +48,7 @@ export const ordersMealsPatchSchema = Type.Partial(ordersMealsSchema, {
 export type OrdersMealsPatch = Static<typeof ordersMealsPatchSchema>
 export const ordersMealsPatchValidator = getValidator(ordersMealsPatchSchema, dataValidator)
 export const ordersMealsPatchResolver = resolve<OrdersMeals, HookContext>({
-  updatedAt: async () => {
-    return new Date().valueOf()
-  }
+  updatedAt: async () => new Date().valueOf()
 })
 
 // Schema for allowed query properties

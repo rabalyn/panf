@@ -5,6 +5,7 @@ import type { Static } from '@feathersjs/typebox'
 
 import type { HookContext } from '../../declarations'
 import { dataValidator, queryValidator } from '../../validators'
+import { v4 } from 'uuid'
 
 // Main data model schema
 export const mealsIngredientsSchema = Type.Object(
@@ -44,9 +45,8 @@ export const mealsIngredientsPatchSchema = Type.Partial(mealsIngredientsSchema, 
 export type MealsIngredientsPatch = Static<typeof mealsIngredientsPatchSchema>
 export const mealsIngredientsPatchValidator = getValidator(mealsIngredientsPatchSchema, dataValidator)
 export const mealsIngredientsPatchResolver = resolve<MealsIngredients, HookContext>({
-  updatedAt: async () => {
-    return new Date().valueOf()
-  }
+  id: async () => v4(),
+  createdAt: async () => new Date().valueOf()
 })
 
 // Schema for allowed query properties

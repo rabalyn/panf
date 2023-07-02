@@ -5,6 +5,7 @@ import type { Static } from '@feathersjs/typebox'
 
 import type { HookContext } from '../../declarations'
 import { dataValidator, queryValidator } from '../../validators'
+import { v4 } from 'uuid'
 
 // Main data model schema
 export const permissionsSchema = Type.Object(
@@ -31,9 +32,8 @@ export const permissionsDataSchema = Type.Pick(permissionsSchema, ['nameI18nKey'
 export type PermissionsData = Static<typeof permissionsDataSchema>
 export const permissionsDataValidator = getValidator(permissionsDataSchema, dataValidator)
 export const permissionsDataResolver = resolve<Permissions, HookContext>({
-  createdAt: async () => {
-    return new Date().valueOf()
-  }
+  id: async () => v4(),
+  createdAt: async () => new Date().valueOf()
 })
 
 // Schema for updating existing entries

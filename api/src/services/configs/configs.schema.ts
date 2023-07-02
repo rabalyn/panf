@@ -35,9 +35,7 @@ export type ConfigsData = Static<typeof configsDataSchema>
 export const configsDataValidator = getValidator(configsDataSchema, dataValidator)
 export const configsDataResolver = resolve<Configs, HookContext>({
   id: async () => v4(),
-  createdAt: async () => {
-    return new Date().valueOf()
-  }
+  createdAt: async () => new Date().valueOf()
 })
 
 // Schema for updating existing entries

@@ -1,17 +1,27 @@
 import type { Knex } from 'knex'
 import { v4 } from 'uuid'
+import { Meals } from '../src/client'
 
-const seeds = [
+const seeds: Meals[] = [
   {
     id: v4(),
     nameI18nKey: 'margherita',
-    priceInCents: '750',
+    type: 'pizza',
+    priceInCents: 750,
     createdAt: new Date().valueOf()
   },
   {
     id: v4(),
     nameI18nKey: 'salami',
-    priceInCents: '850',
+    type: 'pizza',
+    priceInCents: 850,
+    createdAt: new Date().valueOf()
+  },
+  {
+    id: v4(),
+    nameI18nKey: 'caesar',
+    type: 'salad',
+    priceInCents: 600,
     createdAt: new Date().valueOf()
   }
 ]

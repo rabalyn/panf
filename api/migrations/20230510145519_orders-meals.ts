@@ -7,6 +7,9 @@ export async function up(knex: Knex): Promise<void> {
 
     table.uuid('orderId')
     table.uuid('mealId')
+    table.string('name')
+    table.uuid('mealExtraId')
+    table.uuid('mealNextraId')
 
     table.integer('createdAt')
     table.integer('updatedAt')

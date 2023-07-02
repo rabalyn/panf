@@ -42,7 +42,11 @@ export const ordersMeals = (app: Application) => {
         schemaHooks.validateQuery(ordersMealsQueryValidator),
         schemaHooks.resolveQuery(ordersMealsQueryResolver)
       ],
-      find: [],
+      find: [
+        (context) => {
+          context.params.paginate = false
+        }
+      ],
       get: [],
       create: [
         schemaHooks.validateData(ordersMealsDataValidator),

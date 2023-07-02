@@ -5,6 +5,7 @@ import type { Static } from '@feathersjs/typebox'
 
 import type { HookContext } from '../../declarations'
 import { dataValidator, queryValidator } from '../../validators'
+import { v4 } from 'uuid'
 
 // Main data model schema
 export const menusSchema = Type.Object(
@@ -35,9 +36,8 @@ export const menusDataSchema = Type.Pick(menusSchema, ['nameI18nKey'], {
 export type MenusData = Static<typeof menusDataSchema>
 export const menusDataValidator = getValidator(menusDataSchema, dataValidator)
 export const menusDataResolver = resolve<Menus, HookContext>({
-  createdAt: async () => {
-    return new Date().valueOf()
-  }
+  id: async () => v4(),
+  createdAt: async () => new Date().valueOf()
 })
 
 // Schema for updating existing entries

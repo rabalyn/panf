@@ -6,6 +6,8 @@ import type { Static } from '@feathersjs/typebox'
 import type { HookContext } from '../../declarations'
 import { dataValidator, queryValidator } from '../../validators'
 
+import { v4 } from 'uuid'
+
 // Main data model schema
 export const ordersSchema = Type.Object(
   {
@@ -36,12 +38,9 @@ export const ordersDataSchema = Type.Pick(ordersSchema, ['isActive', 'isPublic']
 export type OrdersData = Static<typeof ordersDataSchema>
 export const ordersDataValidator = getValidator(ordersDataSchema, dataValidator)
 export const ordersDataResolver = resolve<Orders, HookContext>({
-  orderdate: async () => {
-    return new Date().valueOf()
-  },
-  createdAt: async () => {
-    return new Date().valueOf()
-  }
+  id: async () => v4(),
+  createdAt: async () => new Date().valueOf(),
+  orderdate: async () => new Date().valueOf()
 })
 
 // Schema for updating existing entries
