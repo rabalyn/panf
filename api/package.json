@@ -63,7 +63,7 @@
     "@feathersjs/knex": "^5.0.6",
     "@feathersjs/koa": "^5.0.6",
     "@feathersjs/schema": "^5.0.6",
-    "@feathersjs/socketio": "^5.0.6",
+    "@feathersjs/socketio": "^5.0.8",
     "@feathersjs/transport-commons": "^5.0.6",
     "@feathersjs/typebox": "^5.0.6",
     "bcryptjs": "^2.4.3",
