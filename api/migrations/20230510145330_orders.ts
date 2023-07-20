@@ -5,8 +5,8 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable('orders', (table) => {
     table.uuid('id')
 
-    table.boolean('isActive')
-    table.boolean('isPublic')
+    table.integer('isActive')
+    table.integer('isPublic')
     table.integer('orderdate')
     table.integer('pickuptime')
     table.string('collector')

@@ -13,12 +13,12 @@ export const ordersSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
 
-    isActive: Type.Boolean(),
-    isPublic: Type.Boolean(),
-    orderdate: Type.Integer({ minimum: 1 }),
-    pickuptime: Type.Integer({ minimum: 1 }),
-    collector: Type.String(),
-    caller: Type.String(),
+    isActive: Type.Integer({ minimum: 0, maximum: 1}),
+    isPublic: Type.Integer({ minimum: 0, maximum: 1}),
+    orderdate: Type.Optional(Type.Integer({ minimum: 1 })),
+    pickuptime: Type.Optional(Type.Integer({ minimum: 1 })),
+    collector: Type.Optional(Type.String()),
+    caller: Type.Optional(Type.String()),
 
     createdAt: Type.Integer({ minimum: 1 }),
     updatedAt: Type.Integer({ minimum: 1 })

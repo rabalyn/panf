@@ -4,29 +4,29 @@ import { v4 } from 'uuid'
 const seeds = [
   {
     id: v4(),
-    isActive: true,
-    isPublic: true,
+    isActive: 1,
+    isPublic: 1,
     orderdate: new Date().valueOf(),
     createdAt: new Date().valueOf()
   },
   {
     id: v4(),
-    isActive: true,
-    isPublic: false,
+    isActive: 1,
+    isPublic: 0,
     orderdate: new Date().valueOf(),
     createdAt: new Date().valueOf()
   },
   {
     id: v4(),
-    isActive: false,
-    isPublic: false,
+    isActive: 0,
+    isPublic: 0,
     orderdate: new Date().valueOf(),
     createdAt: new Date().valueOf()
   },
   {
     id: v4(),
-    isActive: false,
-    isPublic: true,
+    isActive: 0,
+    isPublic: 1,
     orderdate: new Date().valueOf(),
     createdAt: new Date().valueOf()
   },

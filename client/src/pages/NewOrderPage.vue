@@ -31,6 +31,7 @@
 
     <q-separator class="q-ma-md" />
 
+    <pre>{{ order }}</pre>
     <div class="row">
       <q-input
         class="cols q-ma-md"
@@ -101,13 +102,13 @@ import type { Meals as TMeals, Ingredients as TIngredients } from 'api'
 import { formatPrice } from '../lib/utils/formatPrice'
 import { getMealTypeIcon } from '../lib/utils/getMealTypeIcon'
 import { ServiceInstance } from 'feathers-pinia/dist'
-import { OrdersMeals as TOrdersMeals } from 'api'
+import { Orders as TOrders, OrdersMeals as TOrdersMeals } from 'api'
 const { api } = useFeathers()
 const { t } = useI18n()
 const { currentRoute } = useRouter()
 
-const orderId = computed<string>(() => {
-  if (currentRoute?.value?.params?.id) {
+const orderId = computed(() => {
+  if (currentRoute?.value?.params?.id && typeof currentRoute?.value?.params?.id === 'string') {
     return currentRoute?.value?.params?.id
   }
 })
@@ -119,7 +120,7 @@ const orderMealsParams = computed(() => {
 })
 const { data: orderMeals } = api.service('orders-meals').useFind(orderMealsParams, { paginateOn: 'hybrid' })
 
-const orderMealIds = computed(() => orderMeals.value.map(x => x.mealId))
+const orderMealIds = computed(() => orderMeals.value.map((x: TOrdersMeals) => x.mealId))
 const orderedMealsParams = computed(() => {
   return {
     query: {
@@ -136,35 +137,76 @@ const getNameOfMeal = (orderMeal: TOrdersMeals) => {
   return t(meals[0].nameI18nKey)
 }
 
-const orderdate = ref()
-const pickuptime = ref()
+const orderdate = ref('')
+const pickuptime = ref('')
 const caller = ref('')
 const collector = ref('')
 
+// @ts-expect-error id is fine
 const { data: order } = api.service('orders').useGet(orderId)
-console.log(order)
+watch(order, () => {
+  if (order.value.orderdate) {
+    orderdate.value = order.value.orderdate
+  }
+  if (order.value.pickuptime) {
+    pickuptime.value = order.value.pickuptime
+  }
+  if (order.value.caller) {
+    caller.value = order.value.caller
+  }
+  if (order.value.collector) {
+    collector.value = order.value.collector
+  }
+})
+
 watch(orderdate, () => {
   console.log(orderdate)
+  order.value.orderdate = new Date(orderdate.value).valueOf()
+  order.value.save()
 })
+
+onMounted(() => {
+  if (!pickuptime.value) {
+    pickuptime.value = '12:00'
+  }
+  if (!orderdate) {
+    // @ts-expect-error foo
+    orderdate.value = new Date()
+  }
+})
+
 watch(pickuptime, () => {
   console.log(pickuptime)
+  const date = new Date()
+  date.setHours(parseInt(pickuptime.value.split(':')[0]))
+  date.setMinutes(parseInt(pickuptime.value.split(':')[1]))
+  if (order.value) {
+    order.value.pickuptime = date.valueOf()
+    order.value.save()
+  }
 })
 watch(caller, () => {
   console.log(caller)
+  order.value.caller = caller
+  order.value.save()
 })
 watch(collector, () => {
   console.log(collector)
+  order.value.collector = collector
+  order.value.save()
 })
 
 type TBasket = {
   name: string,
   meal: ServiceInstance<TMeals> | undefined,
-  extras: ServiceInstance<TIngredients>[]
+  extras: ServiceInstance<TIngredients>[],
+  nextras: ServiceInstance<TIngredients>[]
 }
 const basket = ref<TBasket>({
   name: '',
   meal: undefined,
-  extras: []
+  extras: [],
+  nextras: []
 })
 
 const params = computed(() => {
